@@ -1,1 +1,23 @@
-<p>login works!</p>
+<mat-card class="card">
+  <h2>Login</h2>
+
+  <form (ngSubmit)="submit()" [formGroup]="form" class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Password" />
+    </mat-form-field>
+
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    <button mat-raised-button type="submit" [disabled]="isLoading">
+      {{ isLoading ? 'Entrando…' : 'Entrar' }}
+    </button>
+  </form>
+</mat-card>
