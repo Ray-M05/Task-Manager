@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>{{ data.mode === 'create' ? 'Crear tarea' : 'Editar tarea' }}</h2>
+
+<div mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Título</mat-label>
+    <input matInput formControlName="title" placeholder="Título" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Descripción</mat-label>
+    <textarea matInput rows="3" formControlName="description" placeholder="Descripción"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="data.mode === 'edit'">
+    <mat-label>Estado</mat-label>
+    <mat-select formControlName="status">
+        <mat-option value="pending">Pendiente</mat-option>
+        <mat-option value="in_progress">En progreso</mat-option>
+        <mat-option value="done">Completada</mat-option>
+    </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" *ngIf="data.canAssign">
+    <mat-label>Asignar a</mat-label>
+    <mat-select formControlName="userId">
+        <mat-option *ngFor="let u of data.users ?? []" [value]="u.id">
+        {{ u.name || u.email }}
+        </mat-option>
+    </mat-select>
+    </mat-form-field>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button (click)="save()">{{ data.mode === 'create' ? 'Crear' : 'Guardar' }}</button>
+</div>

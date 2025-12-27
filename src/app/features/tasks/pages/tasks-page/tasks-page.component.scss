@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.title {
+  margin: 0;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.filters {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 260px;
+  margin-bottom: 12px;
+}
+
+:host ::ng-deep .filters.admin {
+  grid-template-columns: 1fr 260px 260px;
+}
+
+.table {
+  width: 100%;
+}
+
+.actions {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.status-select {
+  width: 180px;
+}
+
+@media (max-width: 720px) {
+  .filters,
+  :host ::ng-deep .filters.admin {
+    grid-template-columns: 1fr;
+  }
+
+
+  .status-select {
+    width: 100%;
+  }
+}

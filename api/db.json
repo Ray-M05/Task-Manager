@@ -19,16 +19,23 @@
     {
       "title": "Tarea del user",
       "description": "Asignada al user",
-      "userId": 2,
-      "status": "pending",
+      "userId": 1,
+      "status": "in_progress",
       "id": 1
     },
     {
       "title": "Tarea del admin",
       "description": "Asignada al admin",
-      "userId": 1,
-      "status": "in_progress",
+      "userId": 2,
+      "status": "pending",
       "id": 2
+    },
+    {
+      "title": "hhhh",
+      "description": "hhhhh",
+      "status": "pending",
+      "userId": 2,
+      "id": 3
     }
   ]
 }
