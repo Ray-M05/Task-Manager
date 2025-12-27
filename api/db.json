@@ -1,14 +1,14 @@
 {
   "users": [
     {
-      "email": "admin@mini-jira.com",
+      "email": "admin@example.com",
       "password": "$2a$10$e6Wn8gR83.px47unMeCn9.8e210IeYV/P8eGvVVaW8nn0el1bYwAm",
       "name": "Admin",
       "role": "admin",
       "id": 1
     },
     {
-      "email": "user@mini-jira.com",
+      "email": "user@example.com",
       "password": "$2a$10$iA2OqSRz0x79yJiXgYH9mubXPIRIliyvwllVuQsnvtiBL/d4Bymmq",
       "name": "User",
       "role": "user",

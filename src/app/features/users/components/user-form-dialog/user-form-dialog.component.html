@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>
+  {{ data.mode === 'create' ? 'Crear usuario' : 'Editar usuario' }}
+</h2>
+
+<div mat-dialog-content [formGroup]="form" class="content">
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="name" placeholder="nombre"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" placeholder="email"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Rol</mat-label>
+    <mat-select formControlName="role">
+      <mat-option *ngFor="let r of roles" [value]="r.value">
+        {{ r.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="data.mode === 'create'">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" formControlName="password"  placeholder="Ingrese una contraseña" />
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button (click)="save()">
+    {{ data.mode === 'create' ? 'Crear' : 'Guardar' }}
+  </button>
+</div>

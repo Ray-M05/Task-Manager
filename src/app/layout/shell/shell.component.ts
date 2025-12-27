@@ -9,6 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { map } from 'rxjs/operators';
+
+
+
 
 @Component({
   selector: 'app-shell',
@@ -28,6 +32,8 @@ import { AuthService } from '../../core/auth/auth.service';
 })
 export class ShellComponent {
   private auth = inject(AuthService);
+
+  isAdmin$ = this.auth.currentUser$.pipe(map(u => u?.role === 'admin'));
   user$ = this.auth.currentUser$;
 
   logout() {
