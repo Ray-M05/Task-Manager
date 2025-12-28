@@ -1,13 +1,47 @@
-.container {
+:host {
+  display: block;
   height: 100vh;
 }
 
-.sidenav {
-  width: 220px;
+.container {
+  height: 100vh;
+  background: var(--bg, #f3f6fb);
 }
 
-.content {
-  padding: 16px;
+.sidenav {
+  width: 260px;
+  background: var(--surface, #ffffff);
+  border-right: 1px solid var(--border, #d7e0ef);
+  padding: 22px 14px;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .sidenav .mat-mdc-nav-list {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .sidenav a.mat-mdc-list-item {
+  border-radius: 12px;
+  margin: 8px 6px;
+  height: 44px;
+  font-weight: 700;
+  color: var(--text, #0f172a);
+}
+
+:host ::ng-deep .sidenav a.mat-mdc-list-item.router-link-active,
+:host ::ng-deep .sidenav a.mat-mdc-list-item[aria-current="page"] {
+  background: var(--primary, #0b72ff);
+  color: #fff !important;
+}
+
+:host ::ng-deep .sidenav .mat-icon {
+  opacity: 0.9;
+}
+
+:host ::ng-deep .mat-toolbar {
+  background: var(--surface, #ffffff) !important;
+  height: 64px;
+  padding: 0 18px;
 }
 
 .spacer {
@@ -15,7 +49,25 @@
 }
 
 .user {
+  color: var(--text, #0f172a);
   margin-right: 12px;
-  font-size: 0.9rem;
-  opacity: 0.9;
+  white-space: nowrap;
 }
+
+:host ::ng-deep button.mat-mdc-stroked-button,
+:host ::ng-deep a.mat-mdc-stroked-button {
+  height: 38px;
+}
+
+.content {
+  padding: 28px 32px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .content {
+    padding: 18px;
+  }
+}
+
+

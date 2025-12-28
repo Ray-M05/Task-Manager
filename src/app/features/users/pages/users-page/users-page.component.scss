@@ -1,11 +1,17 @@
-.header {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 12px;
+:host {
+  display: block;
 }
 
-.title {
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.page-title {
+  font-size: 34px;
+  font-weight: 800;
   margin: 0;
 }
 
@@ -15,22 +21,48 @@
 
 .filters {
   display: grid;
-  gap: 12px;
-  grid-template-columns: 1fr 260px;
-  margin-bottom: 12px;
+  gap: 16px;
+  grid-template-columns: 1.2fr 260px;
+  margin-bottom: 18px;
+}
+
+.table-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .table {
   width: 100%;
 }
 
-.actions {
-  display: inline-flex;
-  gap: 4px;
-  align-items: center;
+:host ::ng-deep .mat-mdc-header-row {
+  background: #f8fafc;
 }
 
-@media (max-width: 720px) {
+:host ::ng-deep .mat-mdc-header-cell {
+  font-weight: 800;
+  color: var(--text);
+}
+
+:host ::ng-deep .mat-mdc-row,
+:host ::ng-deep .mat-mdc-header-row {
+  border-bottom: 1px solid var(--border);
+}
+
+.actions {
+  display: inline-flex;
+  gap: 10px;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+:host ::ng-deep button[aria-label="delete"] mat-icon {
+  color: var(--danger);
+}
+
+@media (max-width: 900px) {
   .filters {
     grid-template-columns: 1fr;
   }

@@ -19,6 +19,10 @@ import { User, UserRole } from '../../../../core/models/user.model';
 import { UserFormDialogComponent } from '../../components/user-form-dialog/user-form-dialog.component';
 import { AuthService } from '../../../../core/auth/auth.service';
 
+import { catchError, finalize, forkJoin, of, switchMap } from 'rxjs';
+import { TasksService } from '../../../tasks/services/tasks.service';
+
+
 type UserFilter = {
   name: string;
   role: UserRole | 'all';
@@ -72,7 +76,8 @@ export class UsersPageComponent {
   constructor(
     private readonly usersService: UsersService,
     private readonly dialog: MatDialog,
-    private readonly auth: AuthService
+    private readonly auth: AuthService,
+    private readonly tasksService: TasksService
   ) {
     this.dataSource.filterPredicate = (user: User, raw: string) => {
       const f = JSON.parse(raw) as UserFilter;
@@ -163,15 +168,36 @@ export class UsersPageComponent {
     });
   }
 
-  delete(user: User): void {
-    if (user.id === this.meId) {
-      alert('No puedes eliminar tu propio usuario.');
-      return;
-    }
-
-    const ok = confirm(`Eliminar usuario "${user.name ?? user.email}"?`);
-    if (!ok) return;
-
-    this.usersService.deleteUser(user.id).subscribe(() => this.reload());
+delete(user: User): void {
+  if (user.id === this.meId) {
+    alert('No puedes eliminar tu propio usuario.');
+    return;
   }
+
+  const ok = confirm(`Eliminar usuario "${user.name ?? user.email}" y sus tareas?`);
+  if (!ok) return;
+
+  this.tasksService
+    .getTasks({ userId: user.id })
+    .pipe(
+      switchMap((tasks) => {
+        if (!tasks.length) return of([]);
+
+        return forkJoin(
+          tasks.map((t) =>
+            this.tasksService.deleteTask(t.id).pipe(
+              catchError(() => of(void 0))
+            )
+          )
+        );
+      }),
+      switchMap(() => this.usersService.deleteUser(user.id)),
+      finalize(() => this.reload()) 
+    )
+    .subscribe({
+      next: () => {},
+      error: () => alert('No se pudo eliminar el usuario.'),
+    });
+}
+
 }

@@ -1,15 +1,70 @@
+:host {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: var(--bg, #f3f6fb);
+}
+
 .card {
-  max-width: 420px;
-  margin: 48px auto;
-  padding: 16px;
+  width: 420px;
+  max-width: 100%;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #d7e0ef);
+  border-radius: 16px;
+  padding: 26px 26px 22px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+h2 {
+  margin: 0 0 18px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--text, #0f172a);
 }
 
 .form {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .error {
-  margin: 0;
-  color: #b00020;
+  margin: -6px 0 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.10);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+button[mat-raised-button] {
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+:host ::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+:host ::ng-deep .mdc-notched-outline__leading {
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+}
+:host ::ng-deep .mdc-notched-outline__trailing {
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+@media (max-height: 720px) {
+  :host {
+    align-items: flex-start;
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
 }

@@ -1,11 +1,17 @@
-.header {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 12px;
+:host {
+  display: block;
 }
 
-.title {
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.page-title {
+  font-size: 34px;
+  font-weight: 800;
   margin: 0;
 }
 
@@ -15,37 +21,81 @@
 
 .filters {
   display: grid;
-  gap: 12px;
-  grid-template-columns: 1fr 260px;
-  margin-bottom: 12px;
+  gap: 16px;
+  grid-template-columns: 1.2fr 260px 260px;
+  margin-bottom: 18px;
 }
 
-:host ::ng-deep .filters.admin {
-  grid-template-columns: 1fr 260px 260px;
+.filters.not-admin {
+  grid-template-columns: 1.2fr 260px;
+}
+
+.table-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .table {
   width: 100%;
 }
 
+:host ::ng-deep .mat-mdc-header-row {
+  background: #f8fafc;
+}
+
+:host ::ng-deep .mat-mdc-header-cell {
+  font-weight: 800;
+  color: var(--text);
+}
+
+:host ::ng-deep .mat-mdc-row,
+:host ::ng-deep .mat-mdc-header-row {
+  border-bottom: 1px solid var(--border);
+}
+
 .actions {
   display: inline-flex;
-  gap: 4px;
+  gap: 10px;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+:host ::ng-deep button[aria-label="delete"] mat-icon {
+  color: var(--danger);
+}
+
+.pill {
+  display: inline-flex;
   align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid transparent;
 }
 
-.status-select {
-  width: 180px;
+.pill--pending {
+  background: #1f2937;
+  color: #fff;
 }
 
-@media (max-width: 720px) {
+.pill--in_progress {
+  background: var(--primary);
+  color: #fff;
+}
+
+.pill--done {
+  background: #fff;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+@media (max-width: 1000px) {
   .filters,
-  :host ::ng-deep .filters.admin {
+  .filters.not-admin {
     grid-template-columns: 1fr;
-  }
-
-
-  .status-select {
-    width: 100%;
   }
 }
