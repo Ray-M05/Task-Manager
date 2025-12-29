@@ -18,7 +18,7 @@
   "tasks": [
     {
       "title": "Tarea 1",
-      "description": "Asignada al admin",
+      "description": "Asignada al admin.",
       "userId": 1,
       "status": "done",
       "id": 1
@@ -26,7 +26,7 @@
     {
       "title": "Tarea 2",
       "description": "desc",
-      "status": "pending",
+      "status": "in_progress",
       "userId": 2,
       "id": 2
     }

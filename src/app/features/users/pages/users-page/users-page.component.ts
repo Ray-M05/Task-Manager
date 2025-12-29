@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
@@ -54,7 +54,7 @@ export class UsersPageComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly fb = inject(FormBuilder);
 
-  meId: number | null = null;
+  readonly meId = signal<number | null>(null);
 
   displayedColumns = ['name', 'email', 'role', 'actions'];
   dataSource = new MatTableDataSource<User>([]);
@@ -103,7 +103,7 @@ export class UsersPageComponent {
   }
 
   ngOnInit(): void {
-    this.meId = this.auth.getCurrentUser()?.id ?? null;
+    this.meId.set(this.auth.getCurrentUser()?.id ?? null);
     this.applyFilter();
     this.reload();
   }
@@ -148,8 +148,7 @@ export class UsersPageComponent {
   }
 
   openEdit(user: User): void {
-    const canEditRole = user.id !== this.meId;
-
+    const canEditRole = user.id !== this.meId();
     const ref = this.dialog.open(UserFormDialogComponent, {
       width: '520px',
       data: { mode: 'edit', user, canEditRole },
@@ -158,7 +157,7 @@ export class UsersPageComponent {
     ref.afterClosed().subscribe((value: UpdateUserDto | null) => {
       if (!value) return;
 
-      if (user.id === this.meId) {
+      if (user.id === this.meId()) {
         const { role, ...safe } = value as any;
         this.usersService.updateUser(user.id, safe).subscribe(() => this.reload());
         return;
@@ -168,36 +167,33 @@ export class UsersPageComponent {
     });
   }
 
-delete(user: User): void {
-  if (user.id === this.meId) {
-    alert('No puedes eliminar tu propio usuario.');
-    return;
-  }
+  delete(user: User): void {
+    if (user.id === this.meId()) {
+      alert('No puedes eliminar tu propio usuario.');
+      return;
+    }
 
-  const ok = confirm(`Eliminar usuario "${user.name ?? user.email}" y sus tareas?`);
-  if (!ok) return;
+    const ok = confirm(`Eliminar usuario "${user.name ?? user.email}" y sus tareas?`);
+    if (!ok) return;
 
-  this.tasksService
-    .getTasks({ userId: user.id })
-    .pipe(
-      switchMap((tasks) => {
-        if (!tasks.length) return of([]);
+    this.tasksService
+      .getTasks({ userId: user.id })
+      .pipe(
+        switchMap((tasks) => {
+          if (!tasks.length) return of([]);
 
-        return forkJoin(
-          tasks.map((t) =>
-            this.tasksService.deleteTask(t.id).pipe(
-              catchError(() => of(void 0))
+          return forkJoin(
+            tasks.map((t) =>
+              this.tasksService.deleteTask(t.id).pipe(catchError(() => of(void 0)))
             )
-          )
-        );
-      }),
-      switchMap(() => this.usersService.deleteUser(user.id)),
-      finalize(() => this.reload()) 
-    )
-    .subscribe({
-      next: () => {},
-      error: () => alert('No se pudo eliminar el usuario.'),
-    });
-}
-
+          );
+        }),
+        switchMap(() => this.usersService.deleteUser(user.id)),
+        finalize(() => this.reload())
+      )
+      .subscribe({
+        next: () => {},
+        error: () => alert('No se pudo eliminar el usuario.'),
+      });
+  }
 }

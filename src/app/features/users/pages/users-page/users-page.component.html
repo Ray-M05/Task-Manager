@@ -16,9 +16,11 @@
   <mat-form-field appearance="outline">
     <mat-label>Rol</mat-label>
     <mat-select formControlName="role">
-      <mat-option *ngFor="let r of roleOptions" [value]="r.value">
-        {{ r.label }}
-      </mat-option>
+      @for (r of roleOptions; track r.value) {
+        <mat-option [value]="r.value">
+          {{ r.label }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 </div>
@@ -52,7 +54,7 @@
             mat-icon-button
             (click)="delete(u)"
             aria-label="delete"
-            [disabled]="u.id === meId"
+            [disabled]="u.id === meId()"
           >
             <mat-icon>delete</mat-icon>
           </button>

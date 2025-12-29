@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -23,8 +23,8 @@ import { AuthService } from '../../../../core/auth/auth.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  isLoading = false;
-  error: string | null = null;
+  readonly isLoading = signal(false);
+  readonly error = signal<string | null>(null);
   form;
 
   constructor(
@@ -39,23 +39,23 @@ export class LoginComponent {
   }
 
   submit(): void {
-    this.error = null;
+    this.error.set(null);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.isLoading = true;
+    this.isLoading.set(true);
     const { email, password } = this.form.getRawValue();
 
     this.auth.login(email, password).subscribe({
       next: () => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         this.router.navigateByUrl('/tasks');
       },
       error: () => {
-        this.isLoading = false;
-        this.error = 'Credenciales inválidas o API apagada.';
+        this.isLoading.set(false);
+        this.error.set('Credenciales inválidas o API apagada.');
       },
     });
   }

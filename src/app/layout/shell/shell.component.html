@@ -2,7 +2,9 @@
   <mat-sidenav class="sidenav" mode="side" opened>
     <mat-nav-list>
       <a mat-list-item routerLink="/tasks">Tareas</a>
-      <a mat-list-item routerLink="/users" *ngIf="isAdmin$ | async">Usuarios</a>
+      @if (isAdmin()) {
+        <a mat-list-item routerLink="/users">Usuarios</a>
+      }
 
     </mat-nav-list>
   </mat-sidenav>
@@ -12,14 +14,11 @@
       <span>Task Manager</span>
       <span class="spacer"></span>
 
-      <ng-container *ngIf="user$ | async as user">
-        <span class="user">Hola, {{ user.name ?? user.email }} ({{ user.role }})</span>
+      @if (user()) {
         <button mat-stroked-button (click)="logout()">Logout</button>
-      </ng-container>
-
-      <ng-container *ngIf="!(user$ | async)">
+      } @else {
         <a mat-stroked-button routerLink="/login">Login</a>
-      </ng-container>
+      }
     </mat-toolbar>
 
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 
 import { AuthService } from '../../core/auth/auth.service';
-import { map } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 
 
@@ -31,10 +31,10 @@ import { map } from 'rxjs/operators';
   styleUrl: './shell.component.scss',
 })
 export class ShellComponent {
-  private auth = inject(AuthService);
+  private readonly auth = inject(AuthService);
 
-  isAdmin$ = this.auth.currentUser$.pipe(map(u => u?.role === 'admin'));
-  user$ = this.auth.currentUser$;
+  readonly user = toSignal(this.auth.currentUser$, { initialValue: null });
+  readonly isAdmin = computed(() => this.user()?.role === 'admin');
 
   logout() {
     this.auth.logout();

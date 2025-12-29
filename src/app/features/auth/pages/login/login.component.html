@@ -12,12 +12,12 @@
       <input matInput type="password" formControlName="password" placeholder="Password" />
     </mat-form-field>
 
-    @if (error) {
-      <p class="error">{{ error }}</p>
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
     }
 
-    <button mat-raised-button type="submit" [disabled]="isLoading">
-      {{ isLoading ? 'Entrando…' : 'Entrar' }}
+    <button mat-raised-button type="submit" [disabled]="isLoading()">
+      {{ isLoading() ? 'Entrando…' : 'Entrar' }}
     </button>
   </form>
 </mat-card>

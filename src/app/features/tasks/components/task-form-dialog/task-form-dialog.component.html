@@ -2,33 +2,36 @@
 
 <div mat-dialog-content [formGroup]="form">
   <mat-form-field appearance="outline">
-    <mat-label>Título</mat-label>
     <input matInput formControlName="title" placeholder="Título" />
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Descripción</mat-label>
     <textarea matInput rows="3" formControlName="description" placeholder="Descripción"></textarea>
   </mat-form-field>
 
-  <mat-form-field appearance="outline" *ngIf="data.mode === 'edit'">
-    <mat-label>Estado</mat-label>
-    <mat-select formControlName="status">
+  @if (data.mode === 'edit') {
+    <mat-form-field appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="status">
         <mat-option value="pending">Pendiente</mat-option>
         <mat-option value="in_progress">En progreso</mat-option>
         <mat-option value="done">Completada</mat-option>
-    </mat-select>
+      </mat-select>
     </mat-form-field>
+  }
 
-
-    <mat-form-field appearance="outline" *ngIf="data.canAssign">
-    <mat-label>Asignar a</mat-label>
-    <mat-select formControlName="userId">
-        <mat-option *ngFor="let u of data.users ?? []" [value]="u.id">
-        {{ u.name || u.email }}
-        </mat-option>
-    </mat-select>
+  @if (data.canAssign) {
+    <mat-form-field appearance="outline">
+      <mat-label>Asignar a</mat-label>
+      <mat-select formControlName="userId">
+        @for (u of data.users ?? []; track u.id) {
+          <mat-option [value]="u.id">
+            {{ u.name || u.email }}
+          </mat-option>
+        }
+      </mat-select>
     </mat-form-field>
+  }
 
 </div>
 

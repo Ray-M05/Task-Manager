@@ -9,8 +9,8 @@
 
 <div
   class="filters"
-  [class.admin]="isAdmin"
-  [class.not-admin]="!isAdmin"
+  [class.admin]="isAdmin()"
+  [class.not-admin]="!isAdmin()"
   [formGroup]="filterForm"
 >
   <mat-form-field appearance="outline">
@@ -21,21 +21,27 @@
   <mat-form-field appearance="outline">
     <mat-label>Estado</mat-label>
     <mat-select formControlName="status">
-      <mat-option *ngFor="let s of statuses" [value]="s.value">
-        {{ s.label }}
-      </mat-option>
+      @for (s of statuses; track s.value) {
+        <mat-option [value]="s.value">
+          {{ s.label }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field appearance="outline" *ngIf="isAdmin">
-    <mat-label>Usuario</mat-label>
-    <mat-select formControlName="userId">
-      <mat-option [value]="'all'">Todos</mat-option>
-      <mat-option *ngFor="let u of adminUsers" [value]="u.id">
-        {{ u.name || u.email }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  @if (isAdmin()) {
+    <mat-form-field appearance="outline">
+      <mat-label>Usuario</mat-label>
+      <mat-select formControlName="userId">
+        <mat-option [value]="'all'">Todos</mat-option>
+        @for (u of adminUsers; track u.id) {
+          <mat-option [value]="u.id">
+            {{ u.name || u.email }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
 </div>
 
 <div class="table-card">
@@ -59,21 +65,17 @@
           }}
         </span>
 
-        <!-- (opcional) si quieres cambiar status con click en admin -->
-        <button
-          mat-button
-          *ngIf="isAdmin"
-          (click)="changeStatus(t, 'pending')"
-          style="margin-left: 8px"
-        >
-          Pendiente
-        </button>
-        <button mat-button *ngIf="isAdmin" (click)="changeStatus(t, 'in_progress')">
-          En progreso
-        </button>
-        <button mat-button *ngIf="isAdmin" (click)="changeStatus(t, 'done')">
-          Completada
-        </button>
+        @if (isAdmin()) {
+          <button mat-button (click)="changeStatus(t, 'pending')">
+            Pendiente
+          </button>
+          <button mat-button (click)="changeStatus(t, 'in_progress')">
+            En progreso
+          </button>
+          <button mat-button (click)="changeStatus(t, 'done')">
+            Completada
+          </button>
+        }
       </td>
     </ng-container>
 

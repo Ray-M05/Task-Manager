@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
@@ -55,7 +55,7 @@ export class TasksPageComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly fb = inject(FormBuilder);
 
-  isAdmin = false;
+  readonly isAdmin = signal(false);
 
   displayedColumns = ['title', 'status', 'userId', 'actions'];
   dataSource = new MatTableDataSource<Task>([]);
@@ -94,7 +94,7 @@ export class TasksPageComponent {
       const statusOk = f.status === 'all' ? true : task.status === f.status;
 
       const userOk =
-        !this.isAdmin || f.userId === 'all' ? true : task.userId === f.userId;
+        !this.isAdmin() || f.userId === 'all' ? true : task.userId === f.userId;
 
       return nameOk && statusOk && userOk;
     };
@@ -108,7 +108,7 @@ export class TasksPageComponent {
   }
 
   ngOnInit(): void {
-    this.isAdmin = this.auth.hasRole('admin');
+    this.isAdmin.set(this.auth.hasRole('admin'));
     this.applyFilter();
     this.reload();
   }
@@ -138,11 +138,11 @@ export class TasksPageComponent {
     const me = this.auth.getCurrentUser();
     const meId = me?.id;
 
-    const tasks$ = this.isAdmin || !meId
+    const tasks$ = this.isAdmin() || !meId
       ? this.tasksService.getTasks()
       : this.tasksService.getTasks({ userId: meId });
 
-    const users$ = this.isAdmin
+    const users$ = this.isAdmin()
       ? this.usersService.getUsers()
       : of(me ? [me] : []);
 
@@ -175,7 +175,7 @@ export class TasksPageComponent {
   }
 
   openCreate(): void {
-    const canAssign = this.isAdmin;
+    const canAssign = this.isAdmin();
     const defaultUserId = this.auth.getCurrentUser()?.id ?? 0;
 
     const ref = this.dialog.open(TaskFormDialogComponent, {
@@ -195,7 +195,7 @@ export class TasksPageComponent {
   }
 
   openEdit(task: Task): void {
-    const canAssign = this.isAdmin;
+    const canAssign = this.isAdmin();
 
     const ref = this.dialog.open(TaskFormDialogComponent, {
       width: '520px',

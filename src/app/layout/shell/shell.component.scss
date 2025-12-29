@@ -10,38 +10,19 @@
 
 .sidenav {
   width: 260px;
-  background: var(--surface, #ffffff);
+  background: var(--surface, #fff);
   border-right: 1px solid var(--border, #d7e0ef);
   padding: 22px 14px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-:host ::ng-deep .sidenav .mat-mdc-nav-list {
-  padding: 0 !important;
-}
-
-:host ::ng-deep .sidenav a.mat-mdc-list-item {
-  border-radius: 12px;
-  margin: 8px 6px;
-  height: 44px;
-  font-weight: 700;
-  color: var(--text, #0f172a);
-}
-
-:host ::ng-deep .sidenav a.mat-mdc-list-item.router-link-active,
-:host ::ng-deep .sidenav a.mat-mdc-list-item[aria-current="page"] {
-  background: var(--primary, #0b72ff);
-  color: #fff !important;
-}
-
-:host ::ng-deep .sidenav .mat-icon {
-  opacity: 0.9;
-}
-
-:host ::ng-deep .mat-toolbar {
-  background: var(--surface, #ffffff) !important;
-  height: 64px;
-  padding: 0 18px;
+.nav-title {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--muted, #64748b);
+  margin: 4px 12px 14px;
 }
 
 .spacer {
@@ -49,25 +30,17 @@
 }
 
 .user {
-  color: var(--text, #0f172a);
+  font-weight: 700;
   margin-right: 12px;
   white-space: nowrap;
 }
 
-:host ::ng-deep button.mat-mdc-stroked-button,
-:host ::ng-deep a.mat-mdc-stroked-button {
-  height: 38px;
-}
-
 .content {
   padding: 28px 32px;
-  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-@media (max-width: 900px) {
-  .content {
-    padding: 18px;
-  }
+:host ::ng-deep .mat-toolbar {
+  background: var(--surface, #fff) !important;
+  border-bottom: 1px solid var(--border, #d7e0ef);
 }
-
-
