@@ -73,7 +73,7 @@ export class TasksPageComponent {
   filterForm = this.fb.nonNullable.group({
     name: [''],
     status: ['all' as TaskFilter['status']],
-    userId: ['all' as TaskFilter['userId']], // ✅ nuevo
+    userId: ['all' as TaskFilter['userId']], 
   });
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -88,13 +88,11 @@ export class TasksPageComponent {
     this.dataSource.filterPredicate = (task: Task, raw: string) => {
       const f = JSON.parse(raw) as TaskFilter;
 
-      const nameOk =
-        !f.name || task.title.toLowerCase().includes(f.name.toLowerCase());
+      const nameOk = !f.name || task.title.toLowerCase().includes(f.name.toLowerCase());
 
       const statusOk = f.status === 'all' ? true : task.status === f.status;
 
-      const userOk =
-        !this.isAdmin() || f.userId === 'all' ? true : task.userId === f.userId;
+      const userOk = !this.isAdmin() || f.userId === 'all' ? true : task.userId === f.userId;
 
       return nameOk && statusOk && userOk;
     };
@@ -142,9 +140,7 @@ export class TasksPageComponent {
       ? this.tasksService.getTasks()
       : this.tasksService.getTasks({ userId: meId });
 
-    const users$ = this.isAdmin()
-      ? this.usersService.getUsers()
-      : of(me ? [me] : []);
+    const users$ = this.isAdmin() ? this.usersService.getUsers() : of(me ? [me] : []);
 
     forkJoin({ tasks: tasks$, users: users$ })
       .pipe(takeUntilDestroyed(this.destroyRef))

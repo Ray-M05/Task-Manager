@@ -65,9 +65,7 @@ export class UserFormDialogComponent {
       email: [this.data.user?.email ?? '', [Validators.required, Validators.email]],
       role: [(this.data.user?.role ?? 'user') as UserRole, [Validators.required]],
 
-      password: ['', this.data.mode === 'create'
-        ? [Validators.required, Validators.minLength(6)]
-        : []],
+      password: ['', this.data.mode === 'create' ? [Validators.required, Validators.minLength(6)] : []],
     });
 
     if (this.data.mode === 'edit') {

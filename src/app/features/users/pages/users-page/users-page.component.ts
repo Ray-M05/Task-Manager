@@ -84,10 +84,8 @@ export class UsersPageComponent {
 
       const q = f.name.toLowerCase();
 
-      const nameOk =
-        !f.name ||
-        (user.name ?? '').toLowerCase().includes(q) ||
-        user.email.toLowerCase().includes(q);
+      const nameOk = !f.name || (user.name ?? '').toLowerCase().includes(q)
+      || user.email.toLowerCase().includes(q);
 
       const roleOk = f.role === 'all' ? true : user.role === f.role;
 

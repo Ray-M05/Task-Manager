@@ -11,9 +11,6 @@ import { MatListModule } from '@angular/material/list';
 import { AuthService } from '../../core/auth/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-
-
-
 @Component({
   selector: 'app-shell',
   standalone: true,

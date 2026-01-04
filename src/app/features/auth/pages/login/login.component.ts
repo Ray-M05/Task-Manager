@@ -55,7 +55,7 @@ export class LoginComponent {
       },
       error: () => {
         this.isLoading.set(false);
-        this.error.set('Credenciales inválidas o API apagada.');
+        this.error.set('Credenciales inválidas');
       },
     });
   }
