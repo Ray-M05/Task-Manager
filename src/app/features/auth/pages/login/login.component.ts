@@ -48,7 +48,7 @@ export class LoginComponent {
     this.isLoading.set(true);
     const { email, password } = this.form.getRawValue();
 
-    this.auth.login(email, password).subscribe({
+    this.auth.login(email.trim(), password).subscribe({
       next: () => {
         this.isLoading.set(false);
         this.router.navigateByUrl('/tasks');

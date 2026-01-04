@@ -59,18 +59,6 @@
             t.status === 'pending' ? 'Pendiente' : t.status === 'in_progress' ? 'En Progreso' : 'Completada'
           }}
         </span>
-
-        @if (isAdmin()) {
-          <button mat-button (click)="changeStatus(t, 'pending')">
-            Pendiente
-          </button>
-          <button mat-button (click)="changeStatus(t, 'in_progress')">
-            En progreso
-          </button>
-          <button mat-button (click)="changeStatus(t, 'done')">
-            Completada
-          </button>
-        }
       </td>
     </ng-container>
 
